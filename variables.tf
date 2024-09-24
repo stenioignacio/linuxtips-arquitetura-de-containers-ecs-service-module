@@ -74,8 +74,8 @@ variable "enviroment_variables" {
 }
 
 variable "capabilities" {
-  type    = list(any)
-  default = ["EC2"]
+  type    = list(string)
+  default = ["FARGATE"]
 }
 
 variable "serivce_launch_type" {

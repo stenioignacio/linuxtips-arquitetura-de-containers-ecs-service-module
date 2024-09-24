@@ -13,10 +13,20 @@ resource "aws_ecs_service" "main" {
     enable   = true
     rollback = true
   }
-  ordered_placement_strategy {
-    type = "spread"
-    field = "attribute:ecs.availability-zone"
+
+  dynamic "ordered_placement_strategy" {
+    for_each = var.serivce_launch_type == "EC2" ? [1] : []
+    content {
+      type = "spread"
+      field = "attribute:ecs.availability-zone"
+    }
   }
+
+  # Apenas se for usar Ec2 em vez de Fargate
+  # ordered_placement_strategy {
+  #   type = "spread"
+  #   field = "attribute:ecs.availability-zone"
+  # }
 
   network_configuration {
     security_groups = [aws_security_group.main.id]

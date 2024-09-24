@@ -31,6 +31,7 @@ resource "aws_ecs_task_definition" "main" {
       options = {
         awslogs-group  = aws_cloudwatch_log_group.main.id
         awslogs-region = var.project_region
+        awslogs-stream-prefix = "ecs"
       }
     }
 
