@@ -7,3 +7,4 @@ resource "aws_ecr_repository" "main" {
     scan_on_push = true
   }
 }
+#Usar comando no CloudShell aws

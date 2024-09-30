@@ -9,7 +9,7 @@ variable "project_region" {
 }
 
 variable "service_name" {
-
+  default = "ecs"
 }
 
 variable "cluster_name" {
@@ -30,19 +30,18 @@ variable "private_subnets" {
 
 variable "service_port" {
   type    = number
-  default = 8080
 }
 
 variable "service_cpu" {
-
+  default = 256
 }
 
 variable "service_memory" {
-
+  default = 512
 }
 
 variable "service_listener" {
-
+  
 }
 
 variable "service_task_execution_role" {
@@ -75,14 +74,24 @@ variable "enviroment_variables" {
 
 variable "capabilities" {
   type    = list(string)
-  default = ["FARGATE"]
+  default = ["FARGATE","FARGATE_SPOT"]
 }
 
-variable "serivce_launch_type" {
-
+# variable "service_launch_type" {
+#   type = string
+# }
+variable "service_launch_type" {
+  type = list(object({
+    capacity_provider = string
+    weight = number
+  }))
+  default = [{
+  capacity_provider = "SPOT"
+  weight = 100
+}]
 }
 variable "service_task_count" {
-
+  default = 3
 }
 
 #Autoscaling

@@ -13,7 +13,7 @@ resource "aws_ecs_task_definition" "main" {
   container_definitions = jsonencode([
     {
     name   = var.service_name,
-    image  = format(":latest${aws_ecr_repository.main.repository_url}")
+    image  = format("${aws_ecr_repository.main.repository_url}:latest")
     cpu    = var.service_cpu
     memory = var.service_memory
 
@@ -31,7 +31,7 @@ resource "aws_ecs_task_definition" "main" {
       options = {
         awslogs-group  = aws_cloudwatch_log_group.main.id
         awslogs-region = var.project_region
-        awslogs-stream-prefix = "ecs"
+        awslogs-stream-prefix = var.service_name
       }
     }
 
