@@ -12,6 +12,11 @@ variable "service_name" {
   default = "ecs"
 }
 
+variable "container_image" {
+  type = string
+  description = "Imagem com tag para deploy da aplicacao no ecs"
+}
+
 variable "cluster_name" {
 
 }

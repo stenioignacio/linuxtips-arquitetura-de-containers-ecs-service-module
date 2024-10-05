@@ -12,8 +12,8 @@ resource "aws_ecs_task_definition" "main" {
 
   container_definitions = jsonencode([
     {
-    name   = var.service_name,
-    image  = format("${aws_ecr_repository.main.repository_url}:latest")
+    name   = var.service_name
+    image  = var.container_image
     cpu    = var.service_cpu
     memory = var.service_memory
 

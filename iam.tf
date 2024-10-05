@@ -17,7 +17,7 @@ resource "aws_iam_role" "service-execution-role" {
 }
 
 resource "aws_iam_role_policy" "serivce-execution-role" {
-  name = "service-role-${var.cluster_name}-${var.service_name}"
+  name = "service-policy-${var.cluster_name}-${var.service_name}"
   role = aws_iam_role.service-execution-role.id
 
   policy = jsonencode({
@@ -26,7 +26,8 @@ resource "aws_iam_role_policy" "serivce-execution-role" {
       {
         Action = ["elasticloadbalancing:*",
           "ec2:*",
-          "ecr:*"
+          "ecr:*",
+          "logs:*"
         ]
         Resource = "*"
         Effect   = "Allow"
