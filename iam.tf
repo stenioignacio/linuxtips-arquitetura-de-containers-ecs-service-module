@@ -14,6 +14,9 @@ resource "aws_iam_role" "service-execution-role" {
       },
     ]
   })
+  lifecycle {
+    ignore_changes = [name]
+  }
 }
 
 resource "aws_iam_role_policy" "serivce-execution-role" {
@@ -34,4 +37,7 @@ resource "aws_iam_role_policy" "serivce-execution-role" {
       },
     ]
   })
+  lifecycle {
+    ignore_changes = [name]
+  }
 }
