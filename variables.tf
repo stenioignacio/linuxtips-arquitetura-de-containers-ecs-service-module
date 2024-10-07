@@ -191,4 +191,5 @@ variable "efs_volumes" {
     read_only : bool
   }))
   default = []
+  description = "Volukmes EFS existentes para serem montados nas tasks do ECS"
 }
