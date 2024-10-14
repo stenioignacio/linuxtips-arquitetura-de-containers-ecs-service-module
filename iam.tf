@@ -31,7 +31,8 @@ resource "aws_iam_role_policy" "serivce-execution-role" {
           "ec2:*",
           "ecr:*",
           "logs:*",
-          "ssm:GetParameters"
+          "ssm:GetParameters",
+          "secretsmanager:GetSecretValue"
         ]
         Resource = "*"
         Effect   = "Allow"
