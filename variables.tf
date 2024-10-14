@@ -82,12 +82,6 @@ variable "secrets" {
     name : string
     valueFrom : string
   }))
-  default = [
-    {
-      name = "signacio"
-      valueFrom = "value"
-    }
-  ]
   description = "Lista de secrets manager ou parameter store"
 }
 
