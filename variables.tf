@@ -79,10 +79,11 @@ variable "enviroment_variables" {
 
 variable "secrets" {
   type = list(object({
-    name : string
-    valueFrom : string
+    name: string
+    valueFrom: string
   }))
-  description = "Lista de secrets manager ou parameter store"
+  default = []
+  description = "Lista de secrets manager ou do parameter store"
 }
 
 variable "capabilities" {
