@@ -77,6 +77,20 @@ variable "enviroment_variables" {
   ]
 }
 
+variable "secrets" {
+  type = list(object({
+    name : string
+    valueFrom : string
+  }))
+  default = [
+    {
+      name = "signacio"
+      valueFrom = "value"
+    }
+  ]
+  description = "Lista de secrets manager ou parameter store"
+}
+
 variable "capabilities" {
   type    = list(string)
   default = ["FARGATE","FARGATE_SPOT"]

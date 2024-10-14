@@ -30,7 +30,8 @@ resource "aws_iam_role_policy" "serivce-execution-role" {
         Action = ["elasticloadbalancing:*",
           "ec2:*",
           "ecr:*",
-          "logs:*"
+          "logs:*",
+          "ssm:GetParameters"
         ]
         Resource = "*"
         Effect   = "Allow"
