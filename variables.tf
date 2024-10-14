@@ -64,7 +64,10 @@ variable "service_hosts" {
 }
 
 variable "enviroment_variables" {
-  type = list(map(string))
+  type = list(object({
+    name: string
+    value: string
+  }))
   default = [
     {
       name  = "FOO",
