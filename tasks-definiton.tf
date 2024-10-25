@@ -17,8 +17,8 @@ resource "aws_ecs_task_definition" "main" {
       name = volume.value.volume_name
 
       efs_volume_configuration {
-        file_system_id = volume.value.file_system_id
-        root_directory = volume.value.file_system_root
+        file_system_id     = volume.value.file_system_id
+        root_directory     = volume.value.file_system_root
         transit_encryption = "ENABLED"
       }
     }
@@ -26,40 +26,40 @@ resource "aws_ecs_task_definition" "main" {
 
   container_definitions = jsonencode([
     {
-    name   = var.service_name
-    image  = var.container_image
-    cpu    = var.service_cpu
-    memory = var.service_memory
+      name   = var.service_name
+      image  = var.container_image
+      cpu    = var.service_cpu
+      memory = var.service_memory
 
-    essential = true
+      essential = true
 
-    portMappings = [{
-      name          = var.service_name
-      containerPort = var.service_port
-      hostPort      = var.service_port
-      protocol      = "tcp"
-    }]
+      portMappings = [{
+        name          = var.service_name
+        containerPort = var.service_port
+        hostPort      = var.service_port
+        protocol      = "tcp"
+      }]
 
-    logConfiguration = {
-      logDriver = "awslogs"
-      options = {
-        awslogs-group  = aws_cloudwatch_log_group.main.id
-        awslogs-region = var.project_region
-        awslogs-stream-prefix = var.service_name
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = aws_cloudwatch_log_group.main.id
+          awslogs-region        = var.project_region
+          awslogs-stream-prefix = var.service_name
+        }
       }
+
+      mountPoints = [
+        for volume in var.efs_volumes : {
+          sourceVolume  = volume.volume_name
+          containerPath = volume.mount_point
+          readOnly      = volume.read_only
+        }
+      ]
+
+      environment = var.enviroment_variables
+
+      secrets = var.secrets
     }
-
-    mountPoints =[
-      for volume in var.efs_volumes : {
-        sourceVolume = volume.volume_name
-        containerPath = volume.mount_point
-        readOnly = volume.read_only
-      }
-    ]
-
-    environment = var.enviroment_variables
-
-    secrets = var.secrets
-  }
   ])
 }

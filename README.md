@@ -34,6 +34,7 @@ No modules.
 | [aws_iam_role.service-execution-role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy.serivce-execution-role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_security_group.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
+| [aws_service_discovery_service.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/service_discovery_service) | resource |
 | [aws_alb.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/alb) | data source |
 | [aws_ssm_parameter.service-listener](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
 | [aws_ssm_parameter.vpc-id](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
@@ -47,7 +48,7 @@ No modules.
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | n/a | `any` | n/a | yes |
 | <a name="input_container_image"></a> [container\_image](#input\_container\_image) | Imagem com tag para deploy da aplicacao no ecs | `string` | n/a | yes |
 | <a name="input_efs_volumes"></a> [efs\_volumes](#input\_efs\_volumes) | Volukmes EFS existentes para serem montados nas tasks do ECS | <pre>list(object({<br/>    volume_name : string<br/>    file_system_id : string<br/>    file_system_root : string<br/>    mount_point : string<br/>    read_only : bool<br/>  }))</pre> | `[]` | no |
-| <a name="input_enviroment_variables"></a> [enviroment\_variables](#input\_enviroment\_variables) | n/a | <pre>list(object({<br/>    name: string<br/>    value: string<br/>  }))</pre> | <pre>[<br/>  {<br/>    "name": "FOO",<br/>    "value": "BAR"<br/>  },<br/>  {<br/>    "name": "PING",<br/>    "value": "PONG"<br/>  }<br/>]</pre> | no |
+| <a name="input_enviroment_variables"></a> [enviroment\_variables](#input\_enviroment\_variables) | n/a | <pre>list(object({<br/>    name : string<br/>    value : string<br/>  }))</pre> | <pre>[<br/>  {<br/>    "name": "FOO",<br/>    "value": "BAR"<br/>  },<br/>  {<br/>    "name": "PING",<br/>    "value": "PONG"<br/>  }<br/>]</pre> | no |
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | n/a | `list(string)` | n/a | yes |
 | <a name="input_project_name"></a> [project\_name](#input\_project\_name) | n/a | `string` | `"arquitetura-de-containers-aws"` | no |
 | <a name="input_project_region"></a> [project\_region](#input\_project\_region) | n/a | `string` | `"us-east-1"` | no |
@@ -69,11 +70,12 @@ No modules.
 | <a name="input_scale_tracking_cpu"></a> [scale\_tracking\_cpu](#input\_scale\_tracking\_cpu) | Tracking CPU | `number` | `80` | no |
 | <a name="input_scale_tracking_requests"></a> [scale\_tracking\_requests](#input\_scale\_tracking\_requests) | n/a | `number` | `0` | no |
 | <a name="input_scale_type"></a> [scale\_type](#input\_scale\_type) | Autoscaling | `any` | `null` | no |
-| <a name="input_secrets"></a> [secrets](#input\_secrets) | Lista de secrets manager ou do parameter store | <pre>list(object({<br/>    name: string<br/>    valueFrom: string<br/>  }))</pre> | `[]` | no |
+| <a name="input_secrets"></a> [secrets](#input\_secrets) | Lista de secrets manager ou do parameter store | <pre>list(object({<br/>    name : string<br/>    valueFrom : string<br/>  }))</pre> | `[]` | no |
 | <a name="input_service_cpu"></a> [service\_cpu](#input\_service\_cpu) | n/a | `number` | `256` | no |
+| <a name="input_service_discovery_namespace"></a> [service\_discovery\_namespace](#input\_service\_discovery\_namespace) | Namespace ID do Service Discovery | `any` | `null` | no |
 | <a name="input_service_healthcheck"></a> [service\_healthcheck](#input\_service\_healthcheck) | n/a | `map(any)` | n/a | yes |
 | <a name="input_service_hosts"></a> [service\_hosts](#input\_service\_hosts) | n/a | `list` | <pre>[<br/>  "chip.linuxtips.demo"<br/>]</pre> | no |
-| <a name="input_service_launch_type"></a> [service\_launch\_type](#input\_service\_launch\_type) | variable "service\_launch\_type" { type = string } | <pre>list(object({<br/>    capacity_provider = string<br/>    weight = number<br/>  }))</pre> | <pre>[<br/>  {<br/>    "capacity_provider": "SPOT",<br/>    "weight": 100<br/>  }<br/>]</pre> | no |
+| <a name="input_service_launch_type"></a> [service\_launch\_type](#input\_service\_launch\_type) | variable "service\_launch\_type" { type = string } | <pre>list(object({<br/>    capacity_provider = string<br/>    weight            = number<br/>  }))</pre> | <pre>[<br/>  {<br/>    "capacity_provider": "SPOT",<br/>    "weight": 100<br/>  }<br/>]</pre> | no |
 | <a name="input_service_listener"></a> [service\_listener](#input\_service\_listener) | n/a | `any` | n/a | yes |
 | <a name="input_service_memory"></a> [service\_memory](#input\_service\_memory) | n/a | `number` | `512` | no |
 | <a name="input_service_name"></a> [service\_name](#input\_service\_name) | n/a | `string` | `"ecs"` | no |

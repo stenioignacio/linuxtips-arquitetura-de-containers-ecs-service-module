@@ -13,7 +13,7 @@ variable "service_name" {
 }
 
 variable "container_image" {
-  type = string
+  type        = string
   description = "Imagem com tag para deploy da aplicacao no ecs"
 }
 
@@ -34,7 +34,7 @@ variable "private_subnets" {
 }
 
 variable "service_port" {
-  type    = number
+  type = number
 }
 
 variable "service_cpu" {
@@ -46,7 +46,7 @@ variable "service_memory" {
 }
 
 variable "service_listener" {
-  
+
 }
 
 variable "service_task_execution_role" {
@@ -65,8 +65,8 @@ variable "service_hosts" {
 
 variable "enviroment_variables" {
   type = list(object({
-    name: string
-    value: string
+    name : string
+    value : string
   }))
   default = [
     {
@@ -82,16 +82,16 @@ variable "enviroment_variables" {
 
 variable "secrets" {
   type = list(object({
-    name: string
-    valueFrom: string
+    name : string
+    valueFrom : string
   }))
-  default = []
+  default     = []
   description = "Lista de secrets manager ou do parameter store"
 }
 
 variable "capabilities" {
   type    = list(string)
-  default = ["FARGATE","FARGATE_SPOT"]
+  default = ["FARGATE", "FARGATE_SPOT"]
 }
 
 # variable "service_launch_type" {
@@ -100,12 +100,12 @@ variable "capabilities" {
 variable "service_launch_type" {
   type = list(object({
     capacity_provider = string
-    weight = number
+    weight            = number
   }))
   default = [{
-  capacity_provider = "SPOT"
-  weight = 100
-}]
+    capacity_provider = "SPOT"
+    weight            = 100
+  }]
 }
 variable "service_task_count" {
   default = 3
@@ -143,11 +143,11 @@ variable "scale_out_statistic" {
 }
 
 variable "scale_out_period" {
-default = 60
+  default = 60
 }
 
 variable "scale_out_evaluation_periods" {
-default = 2
+  default = 2
 }
 
 variable "scale_out_cooldown" {
@@ -202,6 +202,11 @@ variable "efs_volumes" {
     mount_point : string
     read_only : bool
   }))
-  default = []
+  default     = []
   description = "Volukmes EFS existentes para serem montados nas tasks do ECS"
+}
+
+variable "service_discovery_namespace" {
+  description = "Namespace ID do Service Discovery"
+  default = null
 }

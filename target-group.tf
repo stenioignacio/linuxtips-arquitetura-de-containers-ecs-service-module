@@ -1,9 +1,9 @@
 resource "aws_alb_target_group" "main" {
-   name = substr(sha256(format("%s%s", var.service_name, var.cluster_name)), 0, 32)
+  name = substr(sha256(format("%s", var.service_name)), 0, 32)
 
   port   = var.service_port
   vpc_id = data.aws_ssm_parameter.vpc-id.value
-  
+
   protocol    = "HTTP"
   target_type = "ip"
 
