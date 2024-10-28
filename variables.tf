@@ -18,7 +18,7 @@ variable "container_image" {
 }
 
 variable "cluster_name" {
-
+  default = "ecs-cluster-${var.project_name}"
 }
 
 variable "vpc_id" {
