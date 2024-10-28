@@ -26,7 +26,7 @@ variable "vpc_id" {
 }
 
 variable "ssm_vpc_id" {
-  default = "/vpc/vpc-id-arquitetura-de-containers-aws"
+  default = "/linuxtips-vpc/vpc/vpc-id"
 }
 
 variable "private_subnets" {
