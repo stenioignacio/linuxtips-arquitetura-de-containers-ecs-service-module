@@ -14,12 +14,16 @@ resource "aws_ecs_service" "main" {
     }
   }
 
+  deployment_controller {
+    type = var.deployment_controller
+  }
+
   deployment_maximum_percent         = 200
   deployment_minimum_healthy_percent = 100
 
   deployment_circuit_breaker {
-    enable   = true
-    rollback = true
+    enable   = var.deployment_controller == "ECS" ? true : false
+    rollback = var.deployment_controller == "ECS" ? true : false
   }
 
 
@@ -32,10 +36,23 @@ resource "aws_ecs_service" "main" {
     }
   }
 
-  # capacity_provider_strategy {
-  #   capacity_provider = var.service_launch_type
-  #   weight = 100
-  # }
+  dynamic "service_connect_configuration" {
+    for_each = var.use_service_connect ? [var.service_connect_name] : []
+    content {
+      enabled   = var.use_service_connect
+      namespace = var.service_connect_name
+
+      service {
+        port_name      = var.service_connect_name
+        discovery_name = var.service_connect_name
+
+        client_alias {
+          port     = var.service_port
+          dns_name = format("%s.%s", var.service_name, var.service_connect_name)
+        }
+      }
+    }
+  }
 
   dynamic "ordered_placement_strategy" {
     for_each = var.service_launch_type == "EC2" ? [1] : []
@@ -58,15 +75,21 @@ resource "aws_ecs_service" "main" {
     assign_public_ip = true
   }
 
-  load_balancer {
-    target_group_arn = aws_alb_target_group.main.arn
-    container_name   = var.service_name
-    container_port   = var.service_port
+  dynamic "load_balancer" {
+    for_each = var.use_lb ? [1] : []
+
+    content {
+      target_group_arn = (var.use_lb && var.deployment_controller == "CODE_DEPLOY") ? aws_alb_target_group.blue[0].arn : aws_alb_target_group.main[0].arn
+      container_name   = var.service_name
+      container_port   = var.service_port
+    }
   }
 
   lifecycle {
     ignore_changes = [
-      desired_count
+      desired_count,
+      task_definition,
+      load_balancer
     ]
   }
 

@@ -9,7 +9,6 @@ variable "project_region" {
 }
 
 variable "service_name" {
-  default = "ecs"
 }
 
 variable "container_image" {
@@ -37,6 +36,37 @@ variable "service_port" {
   type = number
 }
 
+variable "use_lb" {
+  type        = bool
+  default     = true
+  description = "Habilita a exposição do serviço via load balancer"
+}
+
+variable "service_protocol" {
+  type    = string
+  default = null
+}
+
+variable "protocol" {
+  type    = string
+  default = "tcp"
+}
+
+variable "use_service_connect" {
+  type    = bool
+  default = false
+}
+
+variable "service_connect_name" {
+  type    = string
+  default = null
+}
+
+variable "service_connect_arn" {
+  type    = string
+  default = null
+}
+
 variable "service_cpu" {
   default = 256
 }
@@ -46,15 +76,63 @@ variable "service_memory" {
 }
 
 variable "service_listener" {
-
+  type    = string
+  default = "/linuxtips/ecs/lb/internal/listerner"
 }
 
 variable "service_task_execution_role" {
-
+  type        = string
+  default     = null
+  description = "ARN da role de execução de tarefas do ECS que o serviço usará para executar"
 }
 
 variable "service_healthcheck" {
   type = map(any)
+}
+
+variable "deployment_controller" {
+  type    = string
+  default = "ECS"
+}
+
+variable "codedeploy_strategy" {
+  type    = string
+  default = "CodeDeployDefault.ECSAllAtOnce"
+}
+
+variable "codedeploy_deployment_option" {
+  type    = string
+  default = "WITH_TRAFFIC_CONTROL"
+}
+
+variable "codedeploy_deployment_type" {
+  type    = string
+  default = "BLUE_GREEN"
+}
+
+variable "codedeploy_termination_wait_time_in_minutes" {
+  type    = number
+  default = 2
+}
+
+variable "codedeploy_rollback_alarm" {
+  type    = bool
+  default = true
+}
+
+variable "codedeploy_rollback_error_threshold" {
+  type    = number
+  default = 10
+}
+
+variable "codedeploy_rollback_error_period" {
+  type    = number
+  default = 60
+}
+
+variable "codedeploy_rollback_error_evaluation_period" {
+  type    = number
+  default = 1
 }
 
 variable "service_hosts" {
@@ -90,8 +168,9 @@ variable "secrets" {
 }
 
 variable "capabilities" {
-  type    = list(string)
-  default = ["FARGATE", "FARGATE_SPOT"]
+  type = list(string)
+  # default = ["FARGATE", "FARGATE_SPOT"]
+  default = ["FARGATE"]
 }
 
 # variable "service_launch_type" {
@@ -187,8 +266,15 @@ variable "scale_tracking_cpu" {
   default = 80
 }
 #Tracking Requests
-variable "alb_arn" {
-  default = null
+variable "ssm_alb_arn" {
+  default = "/linuxtips/ecs/lb/internal/id"
+}
+
+variable "ssm_alb_internal" {
+  default = "/linuxtips/ecs/lb/internal/id"
+}
+variable "ssm_listener_internal" {
+  default = "/linuxtips/ecs/lb/internal/listerner"
 }
 variable "scale_tracking_requests" {
   default = 0
@@ -208,5 +294,5 @@ variable "efs_volumes" {
 
 variable "service_discovery_namespace" {
   description = "Namespace ID do Service Discovery"
-  default = null
+  default     = null
 }

@@ -1,5 +1,5 @@
 resource "aws_iam_role" "service-execution-role" {
-  name = "service-role-${var.cluster_name}-${var.service_name}"
+  name = substr(format("service-role-${var.service_name}"), 0, 32)
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -32,7 +32,8 @@ resource "aws_iam_role_policy" "serivce-execution-role" {
           "ecr:*",
           "logs:*",
           "ssm:GetParameters",
-          "secretsmanager:GetSecretValue"
+          "secretsmanager:GetSecretValue",
+          "execute-api:Invoke"
         ]
         Resource = "*"
         Effect   = "Allow"

@@ -1,6 +1,9 @@
 resource "aws_alb_target_group" "main" {
   name = substr(sha256(format("%s", var.service_name)), 0, 32)
 
+  count = (var.use_lb && var.deployment_controller == "ECS") ? 1 : 0
+
+
   port   = var.service_port
   vpc_id = data.aws_ssm_parameter.vpc-id.value
 

@@ -1,0 +1,20 @@
+applicationName: 'ecs-cluster-arquitetura-de-containers-aws-nutrition-bmr'
+deploymentGroupName: 'ecs-cluster-arquitetura-de-containers-aws-nutrition-bmr'
+revision:
+  revisionType: AppSpecContent
+  appSpecContent:
+    content: |
+      version: 0.0
+      Resources:
+        - TargetService:
+            Type: AWS::ECS::Service
+            Properties:
+              TaskDefinition: "arn:aws:ecs:us-east-1:767397849711:task-definition/ecs-cluster-arquitetura-de-containers-aws-nutrition-bmr:14"
+              LoadBalancerInfo:
+                ContainerName: "nutrition-bmr"
+                ContainerPort: 30000
+              CapacityProviderStrategy:
+              
+                - capacityProvider: "FARGATE_SPOT"
+                  weight: 100
+              
