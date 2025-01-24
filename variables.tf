@@ -91,8 +91,7 @@ variable "service_healthcheck" {
 }
 
 variable "deployment_controller" {
-  type    = string
-  default = "ECS"
+  type = string
 }
 
 variable "codedeploy_strategy" {
@@ -141,7 +140,7 @@ variable "service_hosts" {
   ]
 }
 
-variable "enviroment_variables" {
+variable "environment_variables" {
   type = list(object({
     name : string
     value : string
