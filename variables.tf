@@ -264,9 +264,15 @@ variable "scale_in_cooldown" {
 variable "scale_tracking_cpu" {
   default = 80
 }
+
+variable "alb_arn" {
+  type        = string
+  default     = null
+  description = "Arn do alb usado pelo workload sales"
+}
 #Tracking Requests
 variable "ssm_alb_arn" {
-  default = "/linuxtips/ecs/lb/internal/id"
+  default = "/linuxtips/ecs/lb/id"
 }
 
 variable "ssm_alb_internal" {
